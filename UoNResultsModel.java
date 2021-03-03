@@ -19,36 +19,35 @@ public class UoNResultsModel {
 	 * Date:		28/02/2021
 	 */
 
+	/*
+	* Model part of the MVC Model
+	* deals with storing and most of the interactions of the data
+	*/
+
 	private String path="D:\\Temp\\";
-	//private BufferedReader gatewayInFile;
-	//private BufferedReader moduleInFile;
 	private PrintWriter moduleOutFile;
-	//private String gatewayTitle;
 	private Gateway[] gateways = new Gateway[7];
-	//private String[] moduleTitles = new String[17];
 	private Module[] modules = new Module[28];
-	
-	//private String code;
-	//private String title;
-	//private int noOfAssessments;
-	//private String assignment1;
-	//private String assignment2;
-	//private String grade;
 	private int year = 1;
 	
 	public UoNResultsModel() {
+		/*
+		* Model constructor, takes no parameters, but reads in the gateways.dat and modules.dat files
+		 */
 		
 		try {
+			// read in the Gateways file
 			FileInputStream gwayinput = new FileInputStream(path + "gateways.dat");
 			ObjectInputStream gwaystream = new ObjectInputStream(gwayinput);
-			int count =0;
-			Gateway obj = null;
-			while((obj=(Gateway)gwaystream.readObject())!= null) {
-				gateways[count] = obj;
-				count++;
+			int count =0; // array index
+			Gateway obj = null; //set temp variable to null before starting  to read in objects
+			while((obj=(Gateway)gwaystream.readObject())!= null) { // read in object and cast to Gateway object
+				gateways[count] = obj; // store in array location
+				count++; //increment array location
 			}
 			gwaystream.close();
 		} catch (EOFException e) {
+			// ignore the End of File exception as it will trigger at the end of file, but the while loop ensures it is not used
 			//e.printStackTrace();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -62,16 +61,18 @@ public class UoNResultsModel {
 		}
 		
 		try {
+			// read in the Modules file
 			FileInputStream modinput = new FileInputStream(path + "modules.dat");
 			ObjectInputStream modstream = new ObjectInputStream(modinput);
-			int count = 0;
-			Module obj = null;
-			while((obj=(Module)modstream.readObject())!= null) {
-				modules[count] = obj;
-				count++;
+			int count = 0; // array index
+			Module obj = null; // set temp variable to null before starting  to read in objects
+			while((obj=(Module)modstream.readObject())!= null) { // read in object and cast to Module object
+				modules[count] = obj; // store in array location
+				count++; //increment array location
 			}
 			modstream.close();
 		} catch (EOFException e) {
+			// ignore the End of File exception as it will trigger at the end of file, but the while loop ensures it is not used
 			//e.printStackTrace();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -83,58 +84,17 @@ public class UoNResultsModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		/*try {
-			gatewayInFile = new BufferedReader(new FileReader(path+"gateways.txt"));
-			String line;
-			for(int l=0;l<7;l++) {
-				line = gatewayInFile.readLine();
-				gatewayTitle = line;
-				for (int j=0; j<17;j++) {
-					line = gatewayInFile.readLine();
-					moduleTitles[j] = line;
-					//System.out.println(line);
-				}
-				gateways[l]=new Gateway(gatewayTitle, moduleTitles);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			//System.out.println("Error in try");
-		}
-		try {
-			moduleInFile = new BufferedReader(new FileReader(path+"modules.txt"));
-			String line;
-			for (int l=0; l<28;l++) {
-				code = moduleInFile.readLine();
-				title = moduleInFile.readLine();
-				line = moduleInFile.readLine();
-				noOfAssessments = Integer.parseInt(line);
-				assignment1 = moduleInFile.readLine();
-				assignment2 = moduleInFile.readLine();
-				modules[l] = new Module(code, title, noOfAssessments, assignment1, assignment2);
-				//System.out.println(code + ", " + title + ", " + noOfAssessments + ", " + assignment1 + ", " + assignment2);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		/*for (int l =0; l<7;l++) {
-			for (int j=0; j<17; j++) {
-				
-			}
-		}*/
 	}
 	
 	public Module getModule(String ModuleCode) {
+		// method which takes a module code and returns the returns the whole module data
 		String ModCode = ModuleCode;
 		int m=0;
-		for (int l=0;l<28;l++) {
+		for (int l=0;l<28;l++) { // search through the modules array for the code we are looking for and save the location
 			if (ModCode.equals(modules[l].getCode())) {
 				m = l;
 			}
 		}
-		//System.out.println(modules[m].getCode() + ", " + modules[m].getTitle() + ", " + modules[m].getAssessment1() + ", " + modules[m].getAssessment2()); 
 		return modules[m];
 	}
 	
@@ -143,28 +103,15 @@ public class UoNResultsModel {
 	}
 	
 	public String getGatewayModules(String gt, int l) {
-		// working here
+		//return the module code at position l from the selected gateway from the 7 stored gateways
 		int gatewayT =0;
-		for(int j=0;j<7;j++) {
+		for(int j=0;j<7;j++) { // search for the gateway and return the position
 			String title = gateways[j].getTitle();
 			if (gt.equals(title)) {
 				gatewayT = j;
-				//System.out.println(gt);
-				//System.out.println(gateways[j].getTitle());
-				//System.out.println(gatewayT);
 				} 
 			}
 		String tempCode = gateways[gatewayT].getModuleCode(l);
-		//System.out.println(gatewayT);
-		//System.out.println(tempCode);
-		//System.out.println(l);
-		//String tempCode = moduleTitles[l];
-		
-		/*for (int loop=0;loop<7;loop++) {
-			for (int j=0;j<17;j++) {
-				System.out.println(gateways[loop].getModuleCode(j));
-			}
-		}*/
 		return tempCode;
 	}
 	
@@ -174,10 +121,10 @@ public class UoNResultsModel {
 	
 	public void setYear(int y) {
 		this.year = y;
-		//System.out.println(year);
 	}
 	
 	public void recalculate(String code, String assessment1, String assessment2) {
+		//recalculate the final grade when it is changed
 		String modCode = code;
 		String modAssessment1 = assessment1;
 		String modAssessment2 = assessment2;
@@ -185,7 +132,6 @@ public class UoNResultsModel {
 		for (int i=0; i<28; i++) {
 			if (modCode.equals(modules[i].getCode())) {
 				p=i;
-				//System.out.println(p);
 			}
 		}
 		modules[p].setAssessment1(modAssessment1);
@@ -194,6 +140,7 @@ public class UoNResultsModel {
 	}
 	
 	public void saveModules() {
+		// save the modules back to the modules file
 		try {
 			FileOutputStream modoutput = new FileOutputStream(path + "modules.dat");
 			ObjectOutputStream modstream = new ObjectOutputStream(modoutput);
@@ -208,51 +155,36 @@ public class UoNResultsModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		/*try {
-			moduleOutFile = new PrintWriter(new FileWriter(path+"modules.txt"), true);
-			for (int l=0; l<28;l++) {
-				moduleOutFile.println(modules[l].getCode());
-				moduleOutFile.println(modules[l].getTitle());
-				moduleOutFile.println(modules[l].getNoOfAssessments());
-				moduleOutFile.println(modules[l].getAssessment1());
-				moduleOutFile.println(modules[l].getAssessment2());
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 	}
 	
 	public String calculateFinalAward(String gatewayTitle) {
+		// method to estimate the final award of the degree by calculating the mean average of the 2nd and 3rd year results
+		// minus the lowest grade from both years, the dissertation has to always be included however
 		double finalAve = 0;
 		double temp = 0.0;
 		double secondYearAve = 0.0;
 		double thirdYearAve = 0.0;
 		double dissertation = 0.0;
 		double lowest = 25.0;
-		
+		// calculate the total of the 2nd year modules, finally taking the lowest value away
 		for (int l = 6; l < 12; l++) {
 			for (int j=0; j<28;j++) {
 				if (getGatewayModules(gatewayTitle, l).equals(modules[j].getCode())){
-					temp = modules[j].convertGrade(modules[j].getGrade()) * 2;
+					temp = modules[j].convertGrade(modules[j].getGrade()) * 2; // grade is doubled as method call returns 1/2 the value
 					if (temp<lowest) {
 						lowest = temp;
 					}
 					secondYearAve += temp;
-					//System.out.println(temp);
 				}
 			}
 		}
 		secondYearAve -= lowest;
 		lowest = 25;
+		// calculate the total of the 3rd year modules (excluding the dissertation at this time) then taking away the lowest value
 		for (int l = 12; l < 17; l++) {
 			for (int j=0; j<28;j++) {
 				if (getGatewayModules(gatewayTitle, l).equals(modules[j].getCode())){
-					temp = modules[j].convertGrade(modules[j].getGrade()) * 2;
-					//System.out.println(temp);
+					temp = modules[j].convertGrade(modules[j].getGrade()) * 2; // grade is doubled as method call returns 1/2 the value
 					if (getGatewayModules(gatewayTitle, l).equals("CSY4010")) {
 						dissertation = temp;
 					} else {
@@ -265,10 +197,10 @@ public class UoNResultsModel {
 			}
 		}
 		thirdYearAve -= lowest;
-		thirdYearAve += dissertation;
+		thirdYearAve += dissertation; // then add the dissertation
 		
-		finalAve = (secondYearAve + (thirdYearAve * 2))/13;
-		
+		finalAve = (secondYearAve + (thirdYearAve * 2))/13; // double weight the third year results
+		// finally return the award
 	    if (finalAve >= 20.50) {
 			return "First Class Degree";
 		}else if (finalAve >= 17.50) {

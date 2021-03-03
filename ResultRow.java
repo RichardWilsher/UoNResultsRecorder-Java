@@ -13,6 +13,10 @@ public class ResultRow{
 	 * Date:		28/02/2021
 	 */
 
+	/*
+	* Class to allow iterative control over the (5 or)6 modules displayed on the screen
+	*/
+
 	private JTextField moduleCodeText;
 	private JTextField moduleNameText;
 	private JComboBox assessment1Text;
@@ -25,10 +29,14 @@ public class ResultRow{
 	private UoNResultsController controller;
 	
 	public ResultRow(UoNResultsModel model, UoNResultsController controller, int l) {
+		/*
+		* Constructor for the Result Row Class
+		* accepts the model and controller as well as an integer identifying which array location is being accessed
+		*/
 		String assess1;
 		String assess2;
-		this.model = model;
-		this.controller = controller;
+		this.model = model; //attach model to retrieve data
+		this.controller = controller; //attach controller to add actionlisteners
 		this.moduleCodeText = new JTextField();
 		moduleCodeText.setPreferredSize(new Dimension(80, 22));
 		moduleCodeText.setEditable(false);
@@ -37,19 +45,17 @@ public class ResultRow{
 		moduleNameText.setEditable(false);
 		this.assessment1Text = new JComboBox(selections);
 		assessment1Text.addActionListener(this.controller);
-		assess1 = "Assessment1"+l;
+		assess1 = "Assessment1"+l;//variable to attach actionlistener command to, to identify this control
 		assessment1Text.setActionCommand(assess1);
-		//System.out.println(assess1);
 		assessment1Text.setPreferredSize(new Dimension(80, 22));
 		assessment1Text.setEditable(false);
 		this.assessment2Text = new JComboBox(selections);
 		assessment2Text.addActionListener(this.controller);
-		assess2 = "Assessment2"+l;
+		assess2 = "Assessment2"+l;//variable to attach actionlistener command to, to identify this control
 		assessment2Text.setActionCommand(assess2);
-		//System.out.println(assess2);
 		assessment2Text.setPreferredSize(new Dimension(80, 22));
 		assessment2Text.setEditable(false);
-		button = new JButton(" ");
+		button = new JButton(" ");//button usually hidden, used to plug the gap when a module with only 1 assessment is displayed
 		button.setPreferredSize(new Dimension(80, 22));
 		button.setVisible(false);
 		button.setOpaque(false); 
@@ -94,7 +100,6 @@ public class ResultRow{
 	}
 	
 	public void setAssessment1Text(String text) {
-		//assessment1Text.setText(text);
 		switch(text) {
 		case "A+":
 			assessment1Text.setSelectedIndex(0);
@@ -148,7 +153,6 @@ public class ResultRow{
 	}
 	
 	public void setAssessment2Text(String text) {
-		//assessment2Text.setText(text);
 		switch(text) {
 		case "A+":
 			assessment2Text.setSelectedIndex(0);
@@ -206,13 +210,11 @@ public class ResultRow{
 	}
 	
 	public void hideAssessment2Text() {
-		//assessment2Text.setEditable(false);
 		assessment2Text.setVisible(false);
 		button.setVisible(true);
 	}
 	
 	public void showAssessment2Text() {
-		//assessment2Text.setEditable(false);
 		assessment2Text.setVisible(true);
 		button.setVisible(false);
 	}

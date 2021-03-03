@@ -130,12 +130,12 @@ public class UoNResultsView extends JFrame {
 			offset = (year -1) * 6;// offset is 0 for 1st year, 6 for second year, 12 for 3rd year
 			int pos = l + offset;// calculate the position in the array using the offset
 			String temp = model.getGatewayModules(gatewayTitle, pos); // get the module code for the module at the offset array position for the appropriate gateway
-			resultRow[l].setModuleCodeText(temp); //
-			tempModule = model.getModule(temp);
-			resultRow[l].setNameText(tempModule.getTitle());
-			resultRow[l].setAssessment1Text(tempModule.getAssessment1());
-			resultRow[l].setAssessment2Text(tempModule.getAssessment2());
-			resultRow[l].setFinalGradeText(tempModule.getGrade());
+			resultRow[l].setModuleCodeText(temp); //set the module code text box in resultrow
+			tempModule = model.getModule(temp); //get the module from the model
+			resultRow[l].setNameText(tempModule.getTitle()); //set the name text box in resultrow
+			resultRow[l].setAssessment1Text(tempModule.getAssessment1()); //set the assessment1 combobox in resultrow
+			resultRow[l].setAssessment2Text(tempModule.getAssessment2()); //set the assessment2 combobox in resultrow
+			resultRow[l].setFinalGradeText(tempModule.getGrade()); //calculate and store the module result in the final grade text
 			if (tempModule.getNoOfAssessments() == 1) {
 				resultRow[l].hideAssessment2Text(); // hide the 2nd assessment combobox if only 1 assessment for course
 			} else {
@@ -182,9 +182,9 @@ public class UoNResultsView extends JFrame {
 			offset = (year -1) * 6;// offset is 0 for 1st year, 6 for second year, 12 for 3rd year
 			int pos = l + offset;// calculate the position in the array using the offset
 			String temp = model.getGatewayModules(gatewayTitle, pos);
-			resultRow[l].setModuleCodeText(temp);
-			tempModule = model.getModule(temp);
-			resultRow[l].setFinalGradeText(tempModule.getGrade());
+			resultRow[l].setModuleCodeText(temp);//set the module code text box in resultrow
+			tempModule = model.getModule(temp);//get the module from the model
+			resultRow[l].setFinalGradeText(tempModule.getGrade());//calculate and store the module result in the final grade text
 		}
 	}
 }

@@ -12,6 +12,10 @@ public class Module implements Serializable{
 	 * Date:		28/02/2021
 	 */
 
+	/*
+	* Class to store the Module information
+	*/
+
 	private String code;
 	private String title;
 	private int noOfAssessments;
@@ -20,6 +24,7 @@ public class Module implements Serializable{
 	private String grade;
 	
 	public Module(String code, String title, int noOfAssessments, String assessment1, String assessment2) {
+		//constructor taking all values except the grade as the grade is not stored but calculated
 		this.code = code;
 		this.title = title;
 		this.noOfAssessments = noOfAssessments;
@@ -33,6 +38,8 @@ public class Module implements Serializable{
 	}
 	
 	public double convertGrade(String grade) {
+		// method to take the letter grade and return a double value, halved as average of 2 grades
+		// should remove the halving at this stage due to the whole value used in the Model
 		double value = 0;
 		
 		switch(grade) {
@@ -100,13 +107,10 @@ public class Module implements Serializable{
 
 
 	public void calculateGrade() {
-		// grade calculation based on assessment data goes here
-		//String result = "error";
+		// method to add 2 assessment grades and return the module letter grade
 		double value1 = 0;
 		double value2 = 0;
-		
-//		double weight1 = tca1Weight / 100;
-//		double weight2 = tca2Weight / 100;
+
 		if(noOfAssessments == 2) {
 			value1 = convertGrade(assessment1);
 			value2 = convertGrade(assessment2);
@@ -145,7 +149,6 @@ public class Module implements Serializable{
 			}else {
 				grade = "G";
 			}
-			//grade = result;
 		} else {
 			grade = assessment1;
 		}

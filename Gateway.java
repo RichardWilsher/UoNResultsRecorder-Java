@@ -12,10 +12,15 @@ public class Gateway implements Serializable{
 	 * Date:		28/02/2021
 	 */
 
+	/*
+	* Class to store the gateway information
+	*/
+
 	private String title;
 	private String[] modules = new String[17];
 	
 	public Gateway(String title, String[] modules) {
+		// constructor taking all stored values
 		this.title = title;
 		for (int l=0;l<17;l++) {
 			this.modules[l] = modules[l];
