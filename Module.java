@@ -86,7 +86,7 @@ public class Module implements Serializable{
 			value = (8.0) / 2;
 		break;
 		case "F-":
-			value = (4.0) / 2;
+			value = (2.0) / 2;
 		break;
 		case "G":
 			value = 0;
