@@ -12,7 +12,7 @@ public class UoNResultsModel {
 	/**
 	 * Program: 	UoNResults
 	 * Filename:	UoNResultsModel.java
-	 * @author:		© Richard Wilsher (2021)
+	 * @author:		ï¿½ Richard Wilsher (2021)
 	 * Course:		CSY2030 System Design & Development
 	 * Tutor:		Apkar Salatian
 	 * @version:	1.0 final
@@ -156,11 +156,11 @@ public class UoNResultsModel {
 			e.printStackTrace();
 		}
 	}
-	
-	public String calculateFinalAward(String gatewayTitle) {
+
+	private double calculateMean(String gatewayTitle){
 		// method to estimate the final award of the degree by calculating the mean average of the 2nd and 3rd year results
 		// minus the lowest grade from both years, the dissertation has to always be included however
-		double finalAve = 0;
+		double mean =0.0;
 		double temp = 0.0;
 		double secondYearAve = 0.0;
 		double thirdYearAve = 0.0;
@@ -181,16 +181,16 @@ public class UoNResultsModel {
 		secondYearAve -= lowest;
 		lowest = 25;
 		// calculate the total of the 3rd year modules (excluding the dissertation at this time) then taking away the lowest value
-		for (int l = 12; l < 17; l++) {
+		for (int l = 13; l < 17; l++) {
 			for (int j=0; j<28;j++) {
 				if (getGatewayModules(gatewayTitle, l).equals(modules[j].getCode())){
 					temp = modules[j].convertGrade(modules[j].getGrade()) * 2; // grade is doubled as method call returns 1/2 the value
 					if (getGatewayModules(gatewayTitle, l).equals("CSY4010")) {
 						dissertation = temp;
 					} else {
-					if (temp<lowest) {
-						lowest = temp;
-					}
+						if (temp<lowest) {
+							lowest = temp;
+						}
 						thirdYearAve += temp;
 					}
 				}
@@ -198,8 +198,63 @@ public class UoNResultsModel {
 		}
 		thirdYearAve -= lowest;
 		thirdYearAve += dissertation; // then add the dissertation
-		
-		finalAve = (secondYearAve + (thirdYearAve * 2))/13; // double weight the third year results
+
+		mean = (secondYearAve + (thirdYearAve * 2))/13; // double weight the third year results
+		return mean;
+	}
+
+	public double[] bubbleSort(double gradeArray[]) {
+		// sort the median array
+		// given the size is only 15, a bubblesort would be the simplest and speed is unlikely to be affected
+		int n = 15;
+		double temp = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 1; j < (n - i); j++) {
+				if (gradeArray[j - 1] > gradeArray[j]) {
+					temp = gradeArray[j - 1];
+					gradeArray[j - 1] = gradeArray[j];
+					gradeArray[j] = temp;
+				}
+
+			}
+		}
+		return gradeArray;
+	}
+
+		private double calculateMedian(String gatewayTitle){
+		// method to calculate the median average
+		double median = 0.0;
+		int arrayPosition = 0;
+		double[] gradeArray = new double[15];
+		for (int l = 6; l < 17; l++) {
+			for (int j=0; j<28;j++) {
+				if (getGatewayModules(gatewayTitle, l).equals(modules[j].getCode())){
+					gradeArray[arrayPosition] = modules[j].convertGrade(modules[j].getGrade()) * 2; // grade is doubled as method call returns 1/2 the value
+					arrayPosition++;
+					if(l>12){
+						// if a third year module, enter it twice into the array
+						gradeArray[arrayPosition] = modules[j].convertGrade(modules[j].getGrade()) * 2; // grade is doubled as method call returns 1/2 the value
+						arrayPosition++;
+					}
+				}
+			}
+		}
+		double[] sortedGradeArray = bubbleSort(gradeArray);
+		median = sortedGradeArray[7];
+		return median;
+	}
+	
+	public String calculateFinalAward(String gatewayTitle) {
+		// method to calculate the mean and median averages
+		// then return an award based on the highest of the two averages
+		double finalAve = 0.0;
+		double mean = calculateMean(gatewayTitle);
+		double median = calculateMedian(gatewayTitle);
+		if(mean<median){
+			finalAve = median;
+		} else {
+			finalAve = mean;
+		}
 		// finally return the award
 	    if (finalAve >= 20.50) {
 			return "First Class Degree";

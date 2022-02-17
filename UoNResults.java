@@ -7,7 +7,7 @@ public class UoNResults extends JFrame {
 	/**
 	 * Program: 	UoNResults
 	 * Filename:	UoNResults.java
-	 * @author:		© Richard Wilsher (2021)
+	 * @author:		ï¿½ Richard Wilsher (2021)
 	 * Course:		CSY2030 System Design & Development
 	 * Tutor:		Apkar Salatian
 	 * @version:	1.0 final
